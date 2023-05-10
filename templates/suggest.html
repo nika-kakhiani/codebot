@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if user.is_authenticated %}
+{% if response %}
+
+<pre>
+<code class="line-numbers language-{{lang}}">
+{{response}}
+
+</code>
+</pre>
+
+<br><br>
+
+<form class="" action="{% url 'suggest' %}" method="POST">
+  {% csrf_token %}
+  <div class="mb-3">
+    <textarea class="form-control" name="code" placeholder="Have A.I. Suggest Code" rows="3">{{ code }}</textarea>
+  </div>
+  <select class="form-select" name="lang">
+    <option selected>Select Programming Language</option>
+    {% for lang in lang_list %}
+      <option value="{{lang}}">{{lang}}</option>
+    {% endfor %}
+  </select>
+  <br>
+  <button type="submit" class="btn btn-secondary">Submit</button>
+</form>
+<br>
+
+{% else %}
+
+<pre>
+<code class="line-numbers language-python">
+if name == "john":
+  print("hello john!")
+else:
+  print("hello friend")
+</code>
+</pre>
+
+<br><br>
+
+<form class="" action="{% url 'suggest' %}" method="POST">
+  {% csrf_token %}
+  <div class="mb-3">
+    <textarea class="form-control" name="code" placeholder="Have A.I. Suggest Code" rows="3"></textarea>
+  </div>
+  <select class="form-select" name="lang">
+    <option selected>Select Programming Language</option>
+    {% for lang in lang_list %}
+      <option value="{{lang}}">{{lang}}</option>
+    {% endfor %}
+  </select>
+  <br>
+  <button type="submit" class="btn btn-secondary">Submit</button>
+</form>
+<br>
+{% endif %}
+{% else %}
+
+<div class="col-md-6 offset-md-3">
+  <h1 class="text-center">Login</h1>
+  <br>
+  <form class="" action="{% url 'login' %}" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <input type="text" name="username" class="form-control" placeholder="Enter Username">
+    </div>
+    <br>
+    <div class="form-group">
+      <input type="password" name="password" class="form-control" placeholder="Enter Password">
+    </div>
+    <br>
+    <button type="submit" name="button" class="btn btn-secondary">Login</button>
+  </form
+</div>
+{% endif %}
+
+{% endblock %}
